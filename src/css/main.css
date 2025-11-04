@@ -1,0 +1,37 @@
+/* main.css: entry point that pulls in the baseline styles for every page */
+@import "./base.css";
+
+/* Placeholder for future global rules specific to the whole site */
+
+/* Layout container: centers content and enforces global safe areas */
+.container {
+  width: min(100% - 2rem, 72rem); /* cap content width while keeping 1rem margin */
+  margin-inline: auto;            /* center the block within the viewport */
+  padding-inline: 1rem;           /* guarantee breathing room on very small screens */
+}
+
+/* HEADER STYLES */
+
+.site-header {
+  background-color: var(--brand-secondary);
+}
+
+.site-header .container {
+  display: flex;                     /* lay out title + nav in a row */
+  justify-content: space-between;    /* title left, nav on the right */
+  align-items: center;               /* keep both items on the same baseline */
+  padding-block: 0.75rem;            /* top/bottom padding for breathing room */
+}
+
+.site-header nav ul {
+  display: flex;
+  gap: 1.5rem;        /* adjust spacing between links */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-header nav a {
+  text-decoration: none;
+  color: inherit;     /* keeps link color consistent with your header text */
+}

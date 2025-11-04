@@ -1,0 +1,36 @@
+/* base.css: baseline resets and accessibility helpers shared across the site */
+
+/* Root-level design tokens: colors, fonts, and baseline typography */
+:root {
+  color-scheme: light;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  --brand-primary: #1f4f82;
+  --brand-secondary: #f2a950;
+  --surface-light: #f5f6f8;
+  --text-body: #1b2733;
+  --text-muted: #5d6b7c;
+}
+
+/* Apply border-box so padding/borders don't increase element width */
+* {
+  box-sizing: border-box;
+}
+
+/* Full-page defaults: remove body margin and set basic colors */
+body {
+  margin: 0;
+  color: var(--text-body);
+  background: var(--surface-light);
+}
+
+/* Links inherit text color so we can style them contextually */
+a {
+  color: inherit;
+}
+
+/* Images respond to their container size and drop the inline gap */
+img {
+  max-width: 100%;
+  display: block;
+}
