@@ -23,19 +23,36 @@
   padding-block: 0.75rem;            /* Add vertical padding inside the header */
 }
 
+/* Keep the header brand title compact despite global heading scale */
+.site-header h1 {
+  margin: 0;                                           /* Remove default margins that add extra spacing */
+  font-size: clamp(1.5rem, 1.5vw + 1rem, 2.25rem);     /* Limit header title size across breakpoints */
+  line-height: 1.0;                                    /* Match the tighter rhythm used elsewhere */
+}
+
 /* Header navigation list: horizontal layout with even spacing */
+
 .site-header nav ul {
-  display: flex;       /* Arrange list items horizontally */
-  gap: 1.5rem;        /* Maintain consistent spacing between nav links */
-  list-style: none;    /* Remove default list bullets */
-  margin: 0;           /* Reset default top/bottom margin */
-  padding: 0;          /* Reset default padding */
+  display: flex; /* Arrange list items horizontally */
+  gap: 1.5rem; /* Maintain consistent spacing between nav links */
+  list-style: none; /* Remove default list bullets */
+  margin: 0; /* Reset default top/bottom margin */
+  padding: 0; /* Reset default padding */
+}
+
+.site-header nav li {
+  margin-top: 0; /* Override global list spacing so nav items align on one baseline */
 }
 
 /* Navigation links inherit header color and lose the default underline */
 .site-header nav a {
+  display: inline-flex; /* Keep link text vertically centered within the header */
+  align-items: center; /* Align text to the middle of the nav row */
   text-decoration: none; /* Remove underline for a cleaner navigation look */
-  color: inherit;        /* Use the same color as the header text */
+  color: inherit; /* Use the same color as the header text */
+  padding: 0.25rem 0; /* Add consistent vertical padding to every link */
+  font-size: 1rem; /* Match the body font size for alignment consistency */
+  line-height: 1.1; /* Provide slight leading without causing misalignment */
 }
 
 /* HERO SECTION -------------------------------------------------- */

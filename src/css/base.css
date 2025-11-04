@@ -1,15 +1,27 @@
 /* base.css: baseline resets and accessibility helpers shared across the site */
 
+/* Load Google Fonts so every project begins with the same typefaces */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
 /* Root-level design tokens: colors, fonts, spacing, and baseline typography */
 :root {
   color-scheme: light; /* Guide browsers toward a light-color UI baseline */
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Establish the default typeface stack */
-  line-height: 1.5; /* Improve readability for body copy out of the gate */
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* Primary typeface for body copy */
+  --font-heading: var(--font-body); /* Heading font defaults to the body family for consistency */
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; /* Monospaced font for code samples */
+  --font-size-base: 1rem; /* Base font size (16px) anchoring the typography scale */
+  --line-height-base: 1.6; /* Comfortable line height for paragraphs */
+  --line-height-tight: 1.2; /* Tighter line height for headings */
+  --line-height-loose: 1.8; /* Looser line height for lead paragraphs */
   --brand-primary: #1f4f82; /* Primary brand color used for accents and buttons */
   --brand-secondary: #f2a950; /* Secondary brand color for backgrounds like the header */
   --surface-light: #f5f6f8; /* Neutral surface color for page background */
   --text-body: #1b2733; /* Default body text color for strong contrast */
   --text-muted: #5d6b7c; /* Muted text color for secondary copy */
+  --text-inverse: #ffffff; /* Inverse text color for dark surfaces */
+  --text-link: #1f4f82; /* Default hyperlink color */
+  --text-link-hover: #16375b; /* Darker hover state for links */
+  --focus-ring: 0 0 0 3px rgba(31, 79, 130, 0.35); /* Focus outline color for keyboard navigation */
   /* Spacing scale based on an 8px rhythm so layout spacing feels consistent */
   --space-1: 0.5rem;   /* 8px step for fine-grained adjustments */
   --space-2: 1rem;     /* 16px step for standard padding/margins */
@@ -26,17 +38,161 @@
 /* Full-page defaults: remove body margin and set basic colors */
 body {
   margin: 0; /* Strip default body margin so layouts can align to the viewport edges */
+  font-family: var(--font-body); /* Apply the shared body font family */
+  font-size: var(--font-size-base); /* Set the global font size */
+  line-height: var(--line-height-base); /* Use relaxed leading for readability */
   color: var(--text-body); /* Use the strong body text color globally */
   background: var(--surface-light); /* Apply the neutral background site-wide */
 }
 
 /* Links inherit text color so we can style them contextually */
 a {
-  color: inherit; /* Allow links to take on the color of their parent element */
+  color: var(--text-link); /* Tint hyperlinks with the brand link color */
+  text-decoration: underline; /* Keep links visibly underlined */
+  text-decoration-thickness: 1px; /* Make the underline thin and tidy */
+  text-underline-offset: 0.15em; /* Offset the underline for readability */
+  transition: color 0.2s ease, text-decoration-color 0.2s ease; /* Smooth hover transitions */
+}
+
+/* Hover/focus states reinforce interaction cues */
+a:hover,
+a:focus-visible {
+  color: var(--text-link-hover); /* Darken the link color on interaction */
+  text-decoration-color: currentColor; /* Match underline color to the text */
+}
+
+/* Accessible focus ring helps keyboard users stay oriented */
+a:focus-visible {
+  outline: none; /* Remove the default outline to avoid double focus visuals */
+  box-shadow: var(--focus-ring); /* Apply the custom focus halo */
+  border-radius: 0.25rem; /* Slightly round the halo corners */
+}
+
+/* Headings share a consistent typeface, weight, and spacing rhythm */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading); /* Use the designated heading family */
+  font-weight: 700; /* Make headings bold for hierarchy */
+  line-height: var(--line-height-tight); /* Tighten line height to emphasize headlines */
+  margin: 0 0 0.75em; /* Space headings away from following content */
+  color: var(--text-body); /* Keep headings aligned with the body color palette */
+}
+
+/* Responsive heading scale using clamp for fluid sizing */
+h1 {
+  font-size: clamp(2.5rem, 5vw + 1.5rem, 3.5rem); /* Large hero headline */
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw + 1rem, 2.75rem); /* Section headline */
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.5vw + 0.9rem, 2.25rem); /* Sub-section heading */
+}
+
+h4 {
+  font-size: clamp(1.25rem, 1.5vw + 0.85rem, 1.75rem); /* Supporting heading */
+}
+
+h5 {
+  font-size: clamp(1.125rem, 1vw + 0.8rem, 1.5rem); /* Minor heading */
+}
+
+h6 {
+  font-size: clamp(1rem, 0.8vw + 0.75rem, 1.25rem); /* Label-style heading */
+  text-transform: uppercase; /* Capitalize the smallest heading for clarity */
+  letter-spacing: 0.15em; /* Spread letters to differentiate the style */
+}
+
+/* Paragraphs and list-based elements share the vertical rhythm */
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre {
+  margin: 0 0 1em; /* Add consistent space after text blocks */
+}
+
+/* Stacked paragraphs get a bit of extra breathing room */
+p + p {
+  margin-top: 0.75em; /* Push consecutive paragraphs apart */
+}
+
+/* Lists inherit the body leading and receive standard indentation */
+ul,
+ol {
+  padding-left: 1.25em; /* Indent list markers for readability */
+  line-height: var(--line-height-base); /* Match list item leading with body text */
+}
+
+/* Adjacent list items are spaced tightly for a compact look */
+li + li {
+  margin-top: 0.35em; /* Reduce gap between list items */
+}
+
+/* Muted text helper for secondary copy */
+.text-muted {
+  color: var(--text-muted); /* Apply the muted text color */
+}
+
+/* Lead paragraph helper for prominent introductory copy */
+.lead {
+  font-size: 1.25rem; /* Enlarge the lead text */
+  line-height: var(--line-height-loose); /* Loosen leading for airy intro copy */
+}
+
+/* Inline code styling for technical notes */
+code,
+kbd,
+samp {
+  font-family: var(--font-mono); /* Use the mono family for code UI */
+  font-size: 0.95em; /* Slightly reduce size to blend with body text */
+  background: rgba(15, 23, 42, 0.08); /* Tint background to highlight code */
+  padding: 0.15em 0.35em; /* Add breathing room around inline code */
+  border-radius: 0.35em; /* Round corners for a modern feel */
+}
+
+/* Preformatted blocks display larger code snippets */
+pre {
+  font-family: var(--font-mono); /* Ensure preformatted text uses the mono family */
+  font-size: 0.95em; /* Keep code legible without overpowering body text */
+  padding: 1rem; /* Add padding for readability */
+  background: rgba(15, 23, 42, 0.08); /* Match inline code background */
+  border-radius: 0.75rem; /* Round block corners */
+  overflow: auto; /* Enable scrolling when code exceeds container width */
 }
 
 /* Images respond to their container size and drop the inline gap */
 img {
   max-width: 100%; /* Prevent images from overflowing their parent width */
+  height: auto; /* Maintain aspect ratio automatically */
   display: block; /* Remove the default inline-gap beneath images */
+}
+
+/* Blockquotes get branded styling */
+blockquote {
+  margin: 0 0 1.5em; /* Separate quotations from surrounding content */
+  padding-left: 1.25em; /* Indent the quote for emphasis */
+  border-left: 4px solid rgba(31, 79, 130, 0.25); /* Add a subtle brand-colored bar */
+  color: var(--text-muted); /* Use muted text color for quotes */
+  font-style: italic; /* Italicize to distinguish quoted text */
+}
+
+/* Utility alignment classes supply quick text adjustments */
+.text-center {
+  text-align: center; /* Center-align text within the element */
+}
+
+.text-left {
+  text-align: left; /* Left-align text within the element */
+}
+
+.text-right {
+  text-align: right; /* Right-align text within the element */
 }
