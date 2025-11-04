@@ -5,33 +5,135 @@
 
 /* Layout container: centers content and enforces global safe areas */
 .container {
-  width: min(100% - 2rem, 72rem); /* cap content width while keeping 1rem margin */
-  margin-inline: auto;            /* center the block within the viewport */
-  padding-inline: 1rem;           /* guarantee breathing room on very small screens */
+  width: min(100% - 2rem, 72rem); /* Cap content width while guaranteeing 1rem side gutters */
+  margin-inline: auto;            /* Center the container horizontally */
+  padding-inline: 1rem;           /* Add fallback padding for very small screens */
 }
 
-/* HEADER STYLES */
+/* HEADER STYLES: shared navigation appearance across every page */
 
 .site-header {
-  background-color: var(--brand-secondary);
+  background-color: var(--brand-secondary); /* Fill the header with the secondary brand color */
 }
 
 .site-header .container {
-  display: flex;                     /* lay out title + nav in a row */
-  justify-content: space-between;    /* title left, nav on the right */
-  align-items: center;               /* keep both items on the same baseline */
-  padding-block: 0.75rem;            /* top/bottom padding for breathing room */
+  display: flex;                     /* Lay out the brand name and navigation in one row */
+  justify-content: space-between;    /* Push title left and navigation right */
+  align-items: center;               /* Align items vertically along the center baseline */
+  padding-block: 0.75rem;            /* Add vertical padding inside the header */
 }
 
+/* Header navigation list: horizontal layout with even spacing */
 .site-header nav ul {
-  display: flex;
-  gap: 1.5rem;        /* adjust spacing between links */
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: flex;       /* Arrange list items horizontally */
+  gap: 1.5rem;        /* Maintain consistent spacing between nav links */
+  list-style: none;    /* Remove default list bullets */
+  margin: 0;           /* Reset default top/bottom margin */
+  padding: 0;          /* Reset default padding */
 }
 
+/* Navigation links inherit header color and lose the default underline */
 .site-header nav a {
-  text-decoration: none;
-  color: inherit;     /* keeps link color consistent with your header text */
+  text-decoration: none; /* Remove underline for a cleaner navigation look */
+  color: inherit;        /* Use the same color as the header text */
+}
+
+/* HERO SECTION -------------------------------------------------- */
+
+.hero {
+  position: relative; /* Enable future overlays or positioned elements */
+  display: flex;      /* Allow vertical centering of the hero content */
+  align-items: center; /* Vertically center the grid within the hero block */
+  justify-content: center; /* Horizontally center the inner container */
+  color: #fff;        /* Ensure text appears in white over the background */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), /* Apply a dark overlay to boost contrast */
+    url('/images/hero.jpg');                                       /* Load the hero background image */
+  background-size: cover;      /* Scale the image to cover the entire hero area */
+  background-position: center; /* Keep the focal point centered as the viewport changes */
+  background-repeat: no-repeat; /* Prevent repeated tiles for the background image */
+  min-height: 90vh;            /* Let the hero occupy most of the initial viewport */
+  padding-block: var(--space-5); /* Add generous vertical padding using the spacing scale */
+  text-align: center; /* Center inline content across the hero by default */
+}
+
+/* Hero inner layout: stack content by default, become two columns later */
+.hero__content {
+  display: flex;               /* Stack hero elements vertically */
+  flex-direction: column;      /* Ensure headline, copy, and actions flow top-to-bottom */
+  align-items: center;         /* Center each item horizontally */
+  gap: var(--space-3);         /* Space rows/columns using the spacing scale */
+  text-align: center;          /* Center text inside hero elements */
+  max-width: 48rem;            /* Constrain hero content width for readability */
+  margin-inline: auto;         /* Center the content block within the hero */
+}
+
+/* Small label above the main headline */
+.hero__eyebrow {
+  margin: 0;                   /* Remove default paragraph margin */
+  text-transform: uppercase;   /* Present the label in uppercase for emphasis */
+  letter-spacing: 0.2em;       /* Spread letters to enhance the eyebrow style */
+  font-size: 0.85rem;          /* Set a modest size so it stays secondary */
+}
+
+/* Main hero headline: bold, responsive sizing */
+.hero__title {
+  margin: 0;                                           /* Remove default heading margin */
+  font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);        /* Scale the headline fluidly with viewport width */
+  line-height: 1.1;                                    /* Tighten the leading for a strong hero headline */
+}
+
+/* Supporting text capped to a readable line length */
+.hero__lead {
+  margin: var(--space-2) 0 0; /* Add top margin and reset sides/bottom */
+  max-width: 60ch;            /* Limit line length for readability */
+  margin-inline: auto;        /* Center the paragraph block within the hero */
+}
+
+/* Button row: allows wrapping on narrow screens */
+.hero__actions {
+  margin-top: var(--space-3); /* Separate actions from the paragraph above */
+  display: flex;              /* Place buttons in a horizontal row */
+  flex-wrap: wrap;            /* Allow buttons to wrap on narrow screens */
+  justify-content: center;    /* Center the button group under the text */
+  gap: var(--space-2);        /* Keep consistent spacing between buttons */
+}
+
+/* We use the background image instead, so hide the inline figure for now */
+.hero__media {
+  display: none; /* Hide the inline image since the hero uses a background image */
+}
+
+/* Reusable button styles for CTAs anywhere on the site */
+.button {
+  display: inline-flex;                           /* Allow alignment of text/icon inside buttons */
+  align-items: center;                            /* Vertically center button content */
+  justify-content: center;                        /* Center content horizontally */
+  padding: 0.85rem 1.75rem;                       /* Provide consistent touch target sizing */
+  font-weight: 600;                               /* Make the CTA text bold */
+  text-decoration: none;                          /* Remove underlines for button look */
+  border-radius: 999px;                           /* Create a pill-shaped button */
+  transition: transform 0.18s ease, box-shadow 0.18s ease; /* Animate subtle hover effects */
+}
+
+.button--primary {
+  background: #fff;                               /* Use white fill to stand out on the hero */
+  color: var(--brand-primary);                    /* Apply brand color to the text */
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);     /* Add depth for the primary CTA */
+}
+
+.button--secondary {
+  border: 2px solid #fff;                         /* Outline style for secondary emphasis */
+  color: #fff;                                    /* Keep text white to match the outline */
+}
+
+.button:hover {
+  transform: translateY(-2px);                    /* Provide a slight lift effect on hover */
+}
+
+/* At tablet width and up, show the hero text and media side-by-side */
+@media (min-width: 768px) {
+  .hero__content {
+    gap: var(--space-4);                                    /* Add a bit more spacing in larger layouts */
+  }
 }

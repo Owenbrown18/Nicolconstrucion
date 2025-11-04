@@ -1,36 +1,42 @@
 /* base.css: baseline resets and accessibility helpers shared across the site */
 
-/* Root-level design tokens: colors, fonts, and baseline typography */
+/* Root-level design tokens: colors, fonts, spacing, and baseline typography */
 :root {
-  color-scheme: light;
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  --brand-primary: #1f4f82;
-  --brand-secondary: #f2a950;
-  --surface-light: #f5f6f8;
-  --text-body: #1b2733;
-  --text-muted: #5d6b7c;
+  color-scheme: light; /* Guide browsers toward a light-color UI baseline */
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Establish the default typeface stack */
+  line-height: 1.5; /* Improve readability for body copy out of the gate */
+  --brand-primary: #1f4f82; /* Primary brand color used for accents and buttons */
+  --brand-secondary: #f2a950; /* Secondary brand color for backgrounds like the header */
+  --surface-light: #f5f6f8; /* Neutral surface color for page background */
+  --text-body: #1b2733; /* Default body text color for strong contrast */
+  --text-muted: #5d6b7c; /* Muted text color for secondary copy */
+  /* Spacing scale based on an 8px rhythm so layout spacing feels consistent */
+  --space-1: 0.5rem;   /* 8px step for fine-grained adjustments */
+  --space-2: 1rem;     /* 16px step for standard padding/margins */
+  --space-3: 1.5rem;   /* 24px step for larger element gaps */
+  --space-4: 2rem;     /* 32px step for section padding on bigger screens */
+  --space-5: 3rem;     /* 48px step reserved for hero-level breathing room */
 }
 
 /* Apply border-box so padding/borders don't increase element width */
 * {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Ensure width includes padding/borders to simplify layout math */
 }
 
 /* Full-page defaults: remove body margin and set basic colors */
 body {
-  margin: 0;
-  color: var(--text-body);
-  background: var(--surface-light);
+  margin: 0; /* Strip default body margin so layouts can align to the viewport edges */
+  color: var(--text-body); /* Use the strong body text color globally */
+  background: var(--surface-light); /* Apply the neutral background site-wide */
 }
 
 /* Links inherit text color so we can style them contextually */
 a {
-  color: inherit;
+  color: inherit; /* Allow links to take on the color of their parent element */
 }
 
 /* Images respond to their container size and drop the inline gap */
 img {
-  max-width: 100%;
-  display: block;
+  max-width: 100%; /* Prevent images from overflowing their parent width */
+  display: block; /* Remove the default inline-gap beneath images */
 }
