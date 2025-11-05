@@ -13,20 +13,26 @@
 /* HEADER STYLES: shared navigation appearance across every page */
 
 .site-header {
-  background-color: var(--brand-secondary); /* Fill the header with the secondary brand color */
+  background-color: #ffffff; /* Use a crisp white background for the navigation bar */
+  color: var(--text-body); /* Render navigation text with the default body color for contrast */
+  box-shadow: 0 6px 18px rgba(var(--brand-primary-rgb), 0.08); /* Subtle soft glow beneath the header */
+  border-bottom: 1px solid rgba(var(--brand-primary-rgb), 0.12); /* Thin dark border to anchor the header */
+  min-height: var(--site-header-height); /* Ensure the header matches the shared height token */
+  display: flex; /* Center the container vertically within the header */
+  align-items: center; /* Align header content along the vertical center */
 }
 
 .site-header .container {
   display: flex;                     /* Lay out the brand name and navigation in one row */
   justify-content: space-between;    /* Push title left and navigation right */
   align-items: center;               /* Align items vertically along the center baseline */
-  padding-block: 0.75rem;            /* Add vertical padding inside the header */
+  padding-block: 1.125rem;           /* Increase vertical padding for a taller header */
 }
 
 /* Keep the header brand title compact despite global heading scale */
 .site-header h1 {
   margin: 0;                                           /* Remove default margins that add extra spacing */
-  font-size: clamp(1.5rem, 1.5vw + 1rem, 2.25rem);     /* Limit header title size across breakpoints */
+  font-size: clamp(2.25rem, 2vw + 1.2rem, 3.25rem);     /* Enlarge the branding while respecting breakpoints */
   line-height: 1.0;                                    /* Match the tighter rhythm used elsewhere */
 }
 
@@ -63,13 +69,11 @@
   align-items: center; /* Vertically center the grid within the hero block */
   justify-content: center; /* Horizontally center the inner container */
   color: #fff;        /* Ensure text appears in white over the background */
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), /* Apply a dark overlay to boost contrast */
-    url('/images/hero.jpg');                                       /* Load the hero background image */
+  background: linear-gradient(120deg, #2a3340 0%, #46515c 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Steel glow gradient with softened dark tones */
   background-size: cover;      /* Scale the image to cover the entire hero area */
   background-position: center; /* Keep the focal point centered as the viewport changes */
   background-repeat: no-repeat; /* Prevent repeated tiles for the background image */
-  min-height: 90vh;            /* Let the hero occupy most of the initial viewport */
+  min-height: calc(100vh - var(--site-header-height)); /* Fill the viewport minus the header height */
   padding-block: var(--space-5); /* Add generous vertical padding using the spacing scale */
   text-align: center; /* Center inline content across the hero by default */
 }
@@ -98,12 +102,15 @@
   margin: 0;                                           /* Remove default heading margin */
   font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);        /* Scale the headline fluidly with viewport width */
   line-height: 1.1;                                    /* Tighten the leading for a strong hero headline */
+  font-weight: 600;                                    /* Use a refined weight for the display serif */
+  letter-spacing: -0.02em;                             /* Add subtle negative tracking for premium feel */
 }
 
 /* Supporting text capped to a readable line length */
 .hero__lead {
   margin: var(--space-2) 0 0; /* Add top margin and reset sides/bottom */
   max-width: 60ch;            /* Limit line length for readability */
+  color: rgba(255, 255, 255, 0.86); /* Lighten supporting copy over the hero image */
   margin-inline: auto;        /* Center the paragraph block within the hero */
 }
 
@@ -134,14 +141,14 @@
 }
 
 .button--primary {
-  background: #fff;                               /* Use white fill to stand out on the hero */
-  color: var(--brand-primary);                    /* Apply brand color to the text */
-  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);     /* Add depth for the primary CTA */
+  background: var(--brand-primary);             /* Use the deep charcoal for strong contrast */
+  color: var(--text-inverse);                   /* Ensure button label is legible on the dark fill */
+  box-shadow: 0 18px 32px rgba(var(--brand-primary-rgb), 0.18); /* Add depth while echoing the accent color */
 }
 
 .button--secondary {
-  border: 2px solid #fff;                         /* Outline style for secondary emphasis */
-  color: #fff;                                    /* Keep text white to match the outline */
+  border: 2px solid rgba(255, 255, 255, 0.85);    /* Outline style that pops against the dark overlay */
+  color: var(--text-inverse);                     /* Use inverse text so the label stays legible */
 }
 
 .button:hover {
@@ -153,4 +160,22 @@
   .hero__content {
     gap: var(--space-4);                                    /* Add a bit more spacing in larger layouts */
   }
+}
+
+/* ABOUT TEASER -------------------------------------------------- */
+
+.section-about__content {
+  max-width: 48rem; /* Constrain the about copy to a readable width */
+  margin-inline: auto; /* Center the content within the container */
+}
+
+.section-about__heading {
+  margin: 0; /* Remove default heading margin so spacing stays consistent */
+}
+
+.section-about__lead {
+  margin-top: var(--space-2); /* Add breathing room below the heading */
+  color: var(--text-muted); /* Use the muted tone for supporting copy */
+  max-width: 65ch; /* Keep the paragraph legible on large screens */
+  margin-inline: auto; /* Center the text block itself */
 }

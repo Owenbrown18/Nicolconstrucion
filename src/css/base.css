@@ -1,33 +1,39 @@
 /* base.css: baseline resets and accessibility helpers shared across the site */
 
 /* Load Google Fonts so every project begins with the same typefaces */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
 /* Root-level design tokens: colors, fonts, spacing, and baseline typography */
 :root {
   color-scheme: light; /* Guide browsers toward a light-color UI baseline */
-  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* Primary typeface for body copy */
-  --font-heading: var(--font-body); /* Heading font defaults to the body family for consistency */
+  --font-body: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif; /* Refined sans-serif for body copy */
+  --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif; /* Elegant serif for display headings */
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; /* Monospaced font for code samples */
   --font-size-base: 1rem; /* Base font size (16px) anchoring the typography scale */
   --line-height-base: 1.6; /* Comfortable line height for paragraphs */
   --line-height-tight: 1.2; /* Tighter line height for headings */
   --line-height-loose: 1.8; /* Looser line height for lead paragraphs */
-  --brand-primary: #1f4f82; /* Primary brand color used for accents and buttons */
-  --brand-secondary: #f2a950; /* Secondary brand color for backgrounds like the header */
-  --surface-light: #f5f6f8; /* Neutral surface color for page background */
-  --text-body: #1b2733; /* Default body text color for strong contrast */
-  --text-muted: #5d6b7c; /* Muted text color for secondary copy */
+  --brand-primary: #111827; /* Deep gray (almost black) accent for headings and CTAs */
+  --brand-primary-rgb: 17, 24, 39; /* RGB breakdown of the primary accent for overlays */
+  --brand-secondary: #1f2933; /* Dark slate used for high-contrast surfaces */
+  --brand-tertiary: #e5e7eb; /* Light gray accent for cards and subtle highlights */
+  --surface-base: #f5f6f8; /* Soft white background for the overall page */
+  --surface-muted: #f0f1f3; /* Slightly darker gray for alternating sections */
+  --surface-contrast: #d1d5db; /* Medium gray for dividers or emphasized surfaces */
+  --text-body: #111827; /* Default body text color for strong contrast on light backgrounds */
+  --text-muted: #4b5563; /* Muted text color for secondary copy */
   --text-inverse: #ffffff; /* Inverse text color for dark surfaces */
-  --text-link: #1f4f82; /* Default hyperlink color */
-  --text-link-hover: #16375b; /* Darker hover state for links */
-  --focus-ring: 0 0 0 3px rgba(31, 79, 130, 0.35); /* Focus outline color for keyboard navigation */
+  --text-link: #1f2933; /* Link color aligned with the dark slate accent */
+  --text-link-hover: #111827; /* Darker hover state for links */
+  --focus-ring: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.35); /* Focus outline color for keyboard navigation */
   /* Spacing scale based on an 8px rhythm so layout spacing feels consistent */
   --space-1: 0.5rem;   /* 8px step for fine-grained adjustments */
   --space-2: 1rem;     /* 16px step for standard padding/margins */
   --space-3: 1.5rem;   /* 24px step for larger element gaps */
   --space-4: 2rem;     /* 32px step for section padding on bigger screens */
   --space-5: 3rem;     /* 48px step reserved for hero-level breathing room */
+  --section-gap: clamp(3rem, 6vw, 5rem); /* Global vertical spacing between consecutive sections */
+  --site-header-height: 6.25rem; /* Shared header height approximation for viewport layouts */
 }
 
 /* Apply border-box so padding/borders don't increase element width */
@@ -42,7 +48,7 @@ body {
   font-size: var(--font-size-base); /* Set the global font size */
   line-height: var(--line-height-base); /* Use relaxed leading for readability */
   color: var(--text-body); /* Use the strong body text color globally */
-  background: var(--surface-light); /* Apply the neutral background site-wide */
+  background: var(--surface-base); /* Apply the soft white background site-wide */
 }
 
 /* Links inherit text color so we can style them contextually */
@@ -179,7 +185,7 @@ img {
 blockquote {
   margin: 0 0 1.5em; /* Separate quotations from surrounding content */
   padding-left: 1.25em; /* Indent the quote for emphasis */
-  border-left: 4px solid rgba(31, 79, 130, 0.25); /* Add a subtle brand-colored bar */
+  border-left: 4px solid rgba(var(--brand-primary-rgb), 0.3); /* Add a subtle brand-colored bar */
   color: var(--text-muted); /* Use muted text color for quotes */
   font-style: italic; /* Italicize to distinguish quoted text */
 }
@@ -195,4 +201,9 @@ blockquote {
 
 .text-right {
   text-align: right; /* Right-align text within the element */
+}
+
+/* Global section spacing to keep page rhythm consistent */
+main > section + section {
+  margin-top: var(--section-gap); /* Space consecutive sections with the shared gap value */
 }
