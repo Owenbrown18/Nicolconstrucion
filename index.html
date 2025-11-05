@@ -10,16 +10,18 @@
       <!-- The container class keeps content centered and constrained -->
       <div class="container">
         <h1>Nicol Construction</h1>
-        <!-- Primary navigation: each list item links to a top-level page -->
-        <nav>
-          <ul>
+        <!-- Navigation and call-to-action grouped together on the right -->
+        <div class="site-header__actions">
+          <nav>
+            <ul>
             <li><a href="/index.html" aria-current="page">Home</a></li>
-            <li><a href="/services.html">Services</a></li>
-            <li><a href="/projects.html">Projects</a></li>
             <li><a href="/about.html">About</a></li>
+            <li><a href="/services.html">Services</a></li>
             <li><a href="/contact.html">Contact</a></li>
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+          <a class="button button--primary site-header__cta" href="/contact.html">Request a Quote</a>
+        </div>
       </div>
     </header>
     <main id="main">
@@ -27,16 +29,13 @@
       <section class="hero">
         <div class="container hero__content">
           <div class="hero__text">
-            <p class="hero__eyebrow">Welcome</p>
-            <h2 class="hero__title">Crafting Durable Spaces Across Vancouver Island</h2>
-            <p class="hero__lead">
-              Nicol Construction pairs experienced project management with trades you can trust,
-              delivering renovations and new builds that stand the test of time.
-            </p>
-            <div class="hero__actions">
-              <a class="button button--primary" href="/contact.html">Request a Quote</a>
-              <a class="button button--secondary" href="/projects.html">View Recent Projects</a>
-            </div>
+            <img
+              src="/images/Nicol_construction_logo.png"
+              alt="Nicol Construction logo mark"
+              class="hero__logo"
+            />
+            <p class="hero__lead hero__descriptor">Custom Home Builders &amp; Renovation Experts</p>
+            <p class="hero__tagline hero__eyebrow">Your vision of the perfect home is closer than you think.</p>
           </div>
         </div>
       </section>

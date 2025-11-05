@@ -33,7 +33,7 @@
   --space-4: 2rem;     /* 32px step for section padding on bigger screens */
   --space-5: 3rem;     /* 48px step reserved for hero-level breathing room */
   --section-gap: clamp(3rem, 6vw, 5rem); /* Global vertical spacing between consecutive sections */
-  --site-header-height: 6.25rem; /* Shared header height approximation for viewport layouts */
+  --site-header-height: 5.5rem; /* Shared header height approximation for viewport layouts */
 }
 
 /* Apply border-box so padding/borders don't increase element width */

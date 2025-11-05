@@ -13,26 +13,37 @@
 /* HEADER STYLES: shared navigation appearance across every page */
 
 .site-header {
-  background-color: #ffffff; /* Use a crisp white background for the navigation bar */
+  background-color: rgba(255, 255, 255, 0.72); /* Semi-transparent white for a glassy effect */
   color: var(--text-body); /* Render navigation text with the default body color for contrast */
-  box-shadow: 0 6px 18px rgba(var(--brand-primary-rgb), 0.08); /* Subtle soft glow beneath the header */
-  border-bottom: 1px solid rgba(var(--brand-primary-rgb), 0.12); /* Thin dark border to anchor the header */
+  backdrop-filter: blur(16px); /* Blur content behind the header for frosted glass look */
+  -webkit-backdrop-filter: blur(16px); /* Safari support for the glass blur */
+  box-shadow: 0 6px 18px rgba(var(--brand-primary-rgb), 0.12); /* Slightly stronger glow beneath the header */
+  border-bottom: 1px solid rgba(var(--brand-primary-rgb), 0.15); /* Thin dark border to anchor the header */
   min-height: var(--site-header-height); /* Ensure the header matches the shared height token */
   display: flex; /* Center the container vertically within the header */
   align-items: center; /* Align header content along the vertical center */
+  position: sticky; /* Keep the header fixed to the top during scroll */
+  top: 0; /* Pin header to the top edge of the viewport */
+  z-index: 100; /* Ensure the header stays above page content */
 }
 
 .site-header .container {
   display: flex;                     /* Lay out the brand name and navigation in one row */
   justify-content: space-between;    /* Push title left and navigation right */
   align-items: center;               /* Align items vertically along the center baseline */
-  padding-block: 1.125rem;           /* Increase vertical padding for a taller header */
+  padding-block: 0.875rem;           /* Slightly reduce vertical padding for a tighter header */
+}
+
+.site-header__actions {
+  display: flex; /* Group navigation and CTA horizontally */
+  align-items: center; /* Align both elements vertically */
+  gap: var(--space-2); /* Maintain breathing room between nav and button */
 }
 
 /* Keep the header brand title compact despite global heading scale */
 .site-header h1 {
   margin: 0;                                           /* Remove default margins that add extra spacing */
-  font-size: clamp(2.25rem, 2vw + 1.2rem, 3.25rem);     /* Enlarge the branding while respecting breakpoints */
+  font-size: clamp(2rem, 1.6vw + 1.1rem, 2.8rem);      /* Slightly smaller branding while respecting breakpoints */
   line-height: 1.0;                                    /* Match the tighter rhythm used elsewhere */
 }
 
@@ -61,6 +72,19 @@
   line-height: 1.1; /* Provide slight leading without causing misalignment */
 }
 
+.site-header__cta {
+  padding: 0.65rem 1.5rem; /* Slightly smaller footprint for the header CTA */
+  font-size: 0.95rem; /* Reduce type to balance with navigation */
+  border-radius: 999px; /* Maintain pill shape consistent with other buttons */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover response */
+}
+
+.site-header__cta:hover,
+.site-header__cta:focus-visible {
+  transform: scale(1.03); /* Provide a gentle lift on interaction */
+  box-shadow: 0 18px 32px rgba(var(--brand-primary-rgb), 0.2); /* Soft shadow to reinforce depth */
+}
+
 /* HERO SECTION -------------------------------------------------- */
 
 .hero {
@@ -69,7 +93,7 @@
   align-items: center; /* Vertically center the grid within the hero block */
   justify-content: center; /* Horizontally center the inner container */
   color: #fff;        /* Ensure text appears in white over the background */
-  background: linear-gradient(120deg, #2a3340 0%, #46515c 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Steel glow gradient with softened dark tones */
+  background: linear-gradient(120deg, #374250 0%, #56616d 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Brightened steel glow gradient */
   background-size: cover;      /* Scale the image to cover the entire hero area */
   background-position: center; /* Keep the focal point centered as the viewport changes */
   background-repeat: no-repeat; /* Prevent repeated tiles for the background image */
@@ -78,12 +102,84 @@
   text-align: center; /* Center inline content across the hero by default */
 }
 
+.hero::before {
+  content: ""; /* Create an overlay element that extends behind the header */
+  position: absolute; /* Allow precise positioning relative to the hero */
+  top: calc(-1 * var(--site-header-height)); /* Extend upward the full header height */
+  left: 0;
+  right: 0;
+  height: var(--site-header-height); /* Match the header height so the gradient continues seamlessly */
+  background: linear-gradient(120deg, #374250 0%, #56616d 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Mirror the hero gradient */
+  z-index: -1; /* Place the overlay behind hero content */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-logo-reveal {
+    0% {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    70% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes hero-logo-shimmer {
+    0% {
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+    }
+    50% {
+      filter: drop-shadow(0 18px 30px rgba(255, 255, 255, 0.35));
+    }
+    100% {
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+    }
+  }
+
+  @keyframes hero-text-reveal {
+    0% {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero.is-animated .hero__logo {
+    opacity: 0; /* Start hidden for animated reveal */
+    transform: scale(0.92); /* Slightly smaller start state */
+    animation: hero-logo-reveal 0.7s ease-out forwards, hero-logo-shimmer 2.6s ease-out forwards 0.95s; /* Entrance + shimmer */
+    animation-delay: 0.1s;
+  }
+
+  .hero.is-animated .hero__lead {
+    opacity: 0; /* Fade in after logo */
+    transform: translateY(12px); /* Begin slightly lower */
+    animation: hero-text-reveal 0.65s ease-out forwards;
+    animation-delay: 0.45s;
+  }
+
+  .hero.is-animated .hero__tagline {
+    opacity: 0; /* Fade in last */
+    transform: translateY(16px); /* Begin slightly lower */
+    animation: hero-text-reveal 0.7s ease-out forwards;
+    animation-delay: 0.6s;
+  }
+}
+
 /* Hero inner layout: stack content by default, become two columns later */
 .hero__content {
   display: flex;               /* Stack hero elements vertically */
   flex-direction: column;      /* Ensure headline, copy, and actions flow top-to-bottom */
   align-items: center;         /* Center each item horizontally */
-  gap: var(--space-3);         /* Space rows/columns using the spacing scale */
+  gap: var(--space-2);         /* Moderate spacing between stacked hero elements */
   text-align: center;          /* Center text inside hero elements */
   max-width: 48rem;            /* Constrain hero content width for readability */
   margin-inline: auto;         /* Center the content block within the hero */
@@ -97,35 +193,47 @@
   font-size: 0.85rem;          /* Set a modest size so it stays secondary */
 }
 
-/* Main hero headline: bold, responsive sizing */
-.hero__title {
-  margin: 0;                                           /* Remove default heading margin */
-  font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);        /* Scale the headline fluidly with viewport width */
-  line-height: 1.1;                                    /* Tighten the leading for a strong hero headline */
-  font-weight: 600;                                    /* Use a refined weight for the display serif */
-  letter-spacing: -0.02em;                             /* Add subtle negative tracking for premium feel */
+/* Supporting text capped to a readable line length */
+.hero__logo {
+  width: clamp(260px, 32vw, 520px); /* Scale logo responsively with much larger bounds */
+  height: auto; /* Maintain intrinsic aspect ratio */
+  margin: 0 auto var(--space-1); /* Center the mark and add space below */
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25)); /* Add subtle depth */
+  opacity: 1; /* Default to visible when animations disabled */
+  transform: scale(1); /* Default scale */
+  animation: none; /* Enable via media query */
 }
 
-/* Supporting text capped to a readable line length */
 .hero__lead {
-  margin: var(--space-2) 0 0; /* Add top margin and reset sides/bottom */
+  margin: 0.35rem 0 0; /* Bring descriptor closer to the logo */
   max-width: 60ch;            /* Limit line length for readability */
   color: rgba(255, 255, 255, 0.86); /* Lighten supporting copy over the hero image */
+  text-shadow: 0 6px 18px rgba(17, 24, 39, 0.35); /* Add depth for readability over the gradient */
   margin-inline: auto;        /* Center the paragraph block within the hero */
+  opacity: 1; /* Visible by default when animations are disabled */
+  transform: translateY(0); /* Neutral position */
+  animation: none; /* Enabled when motion allowed */
+}
+
+.hero__descriptor {
+  font-size: clamp(1.125rem, 1vw + 1rem, 1.5rem); /* Sized between body and display type */
+  font-weight: 500; /* Slightly bolder for emphasis */
+}
+
+.hero__tagline {
+  margin-top: 0.3rem; /* Keep tagline close to the descriptor */
+  letter-spacing: 0.28em; /* Increase tracking for an elegant uppercase look */
+  color: rgba(255, 255, 255, 0.72); /* Muted white for supportive tone */
+  text-shadow: 0 6px 18px rgba(17, 24, 39, 0.35); /* Boost legibility against lighter gradient areas */
+  opacity: 1; /* Visible by default */
+  transform: translateY(0); /* Neutral position */
+  animation: none; /* Enabled when motion allowed */
 }
 
 /* Button row: allows wrapping on narrow screens */
-.hero__actions {
-  margin-top: var(--space-3); /* Separate actions from the paragraph above */
-  display: flex;              /* Place buttons in a horizontal row */
-  flex-wrap: wrap;            /* Allow buttons to wrap on narrow screens */
-  justify-content: center;    /* Center the button group under the text */
-  gap: var(--space-2);        /* Keep consistent spacing between buttons */
-}
-
-/* We use the background image instead, so hide the inline figure for now */
+/* We use the background gradient instead, so hide the inline figure for now */
 .hero__media {
-  display: none; /* Hide the inline image since the hero uses a background image */
+  display: none; /* Not needed while using CSS gradient */
 }
 
 /* Reusable button styles for CTAs anywhere on the site */
