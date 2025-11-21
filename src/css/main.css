@@ -5,7 +5,7 @@
 
 /* Layout container: centers content and enforces global safe areas */
 .container {
-  width: min(100% - 2rem, 72rem); /* Cap content width while guaranteeing 1rem side gutters */
+  width: min(100% - 2rem, 64rem); /* Cap content width to 64rem while guaranteeing 1rem side gutters */
   margin-inline: auto;            /* Center the container horizontally */
   padding-inline: 1rem;           /* Add fallback padding for very small screens */
 }
@@ -92,11 +92,12 @@
   display: flex;      /* Allow vertical centering of the hero content */
   align-items: center; /* Vertically center the grid within the hero block */
   justify-content: center; /* Horizontally center the inner container */
-  color: #fff;        /* Ensure text appears in white over the background */
-  background: linear-gradient(120deg, #374250 0%, #56616d 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Brightened steel glow gradient */
+  color: var(--text-body);        /* Use the dark text color for better legibility on the glass overlay */
+  background: url('/images/Kitchen.jpeg'); /* Use the kitchen photo as the hero background */
   background-size: cover;      /* Scale the image to cover the entire hero area */
   background-position: center; /* Keep the focal point centered as the viewport changes */
   background-repeat: no-repeat; /* Prevent repeated tiles for the background image */
+  z-index: 0; /* Establish a stacking context for the glass overlay */
   min-height: calc(100vh - var(--site-header-height)); /* Fill the viewport minus the header height */
   padding-block: var(--space-5); /* Add generous vertical padding using the spacing scale */
   text-align: center; /* Center inline content across the hero by default */
@@ -108,9 +109,15 @@
   top: calc(-1 * var(--site-header-height)); /* Extend upward the full header height */
   left: 0;
   right: 0;
-  height: var(--site-header-height); /* Match the header height so the gradient continues seamlessly */
-  background: linear-gradient(120deg, #374250 0%, #56616d 45%, rgba(255, 255, 255, 0.96) 92%, #ffffff 100%); /* Mirror the hero gradient */
-  z-index: -1; /* Place the overlay behind hero content */
+  bottom: 0; /* Extend through the entire hero area */
+  background:
+    radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0) 55%),
+    rgba(255, 255, 255, 0.45); /* Slightly stronger glass with a focal vignette */
+  backdrop-filter: blur(7px) saturate(115%); /* Blur and gently enrich the image beneath */
+  -webkit-backdrop-filter: blur(7px) saturate(115%); /* Safari support */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35); /* Subtle edge to define the overlay */
+  pointer-events: none; /* Ensure overlay doesn't block interactions */
+  z-index: 0; /* Sit between the background image and the content */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -181,16 +188,21 @@
   align-items: center;         /* Center each item horizontally */
   gap: var(--space-2);         /* Moderate spacing between stacked hero elements */
   text-align: center;          /* Center text inside hero elements */
-  max-width: 48rem;            /* Constrain hero content width for readability */
+  width: 100%;                 /* Let content fill the container's safe area */
   margin-inline: auto;         /* Center the content block within the hero */
+  position: relative;          /* Keep hero content above the glass overlay */
+  z-index: 1;                  /* Raise above the overlay */
 }
 
 /* Small label above the main headline */
 .hero__eyebrow {
   margin: 0;                   /* Remove default paragraph margin */
   text-transform: uppercase;   /* Present the label in uppercase for emphasis */
-  letter-spacing: 0.2em;       /* Spread letters to enhance the eyebrow style */
-  font-size: 0.85rem;          /* Set a modest size so it stays secondary */
+  letter-spacing: 0.16em;      /* Slightly tighten tracking to reduce wrapping */
+  font-size: 0.95rem;          /* Slightly larger for legibility */
+  font-weight: 700;            /* Bold weight for stronger contrast */
+  color: var(--text-body);     /* Force a solid black tone for contrast */
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.35); /* Soft glow to keep black text legible on the photo */
 }
 
 /* Supporting text capped to a readable line length */
@@ -206,9 +218,9 @@
 
 .hero__lead {
   margin: 0.35rem 0 0; /* Bring descriptor closer to the logo */
-  max-width: 60ch;            /* Limit line length for readability */
-  color: rgba(255, 255, 255, 0.86); /* Lighten supporting copy over the hero image */
-  text-shadow: 0 6px 18px rgba(17, 24, 39, 0.35); /* Add depth for readability over the gradient */
+  max-width: none;            /* Allow lead to span the full container */
+  color: var(--text-body); /* Use dark text to match the new overlay treatment */
+  text-shadow: 0 6px 18px rgba(255, 255, 255, 0.28); /* Soft light glow to stand off the photo */
   margin-inline: auto;        /* Center the paragraph block within the hero */
   opacity: 1; /* Visible by default when animations are disabled */
   transform: translateY(0); /* Neutral position */
@@ -216,15 +228,16 @@
 }
 
 .hero__descriptor {
-  font-size: clamp(1.125rem, 1vw + 1rem, 1.5rem); /* Sized between body and display type */
+  font-size: clamp(1.25rem, 1vw + 1.1rem, 1.65rem); /* Sized between body and display type */
   font-weight: 500; /* Slightly bolder for emphasis */
 }
 
 .hero__tagline {
   margin-top: 0.3rem; /* Keep tagline close to the descriptor */
   letter-spacing: 0.28em; /* Increase tracking for an elegant uppercase look */
-  color: rgba(255, 255, 255, 0.72); /* Muted white for supportive tone */
-  text-shadow: 0 6px 18px rgba(17, 24, 39, 0.35); /* Boost legibility against lighter gradient areas */
+  color: var(--text-muted); /* Use muted body tone for secondary copy */
+  text-shadow: 0 6px 18px rgba(255, 255, 255, 0.28); /* Light glow keeps text readable on the photo */
+  font-size: clamp(1rem, 0.9vw + 0.75rem, 1.2rem); /* Enlarge tagline for readability */
   opacity: 1; /* Visible by default */
   transform: translateY(0); /* Neutral position */
   animation: none; /* Enabled when motion allowed */
@@ -273,7 +286,7 @@
 /* ABOUT TEASER -------------------------------------------------- */
 
 .section-about__content {
-  max-width: 48rem; /* Constrain the about copy to a readable width */
+  max-width: none; /* Use the full container width */
   margin-inline: auto; /* Center the content within the container */
 }
 
@@ -284,6 +297,6 @@
 .section-about__lead {
   margin-top: var(--space-2); /* Add breathing room below the heading */
   color: var(--text-muted); /* Use the muted tone for supporting copy */
-  max-width: 65ch; /* Keep the paragraph legible on large screens */
+  max-width: none; /* Allow the paragraph to span the full container */
   margin-inline: auto; /* Center the text block itself */
 }
